@@ -97,7 +97,53 @@ namespace NumereMari
 
         private static void Scadere(int[] numar1, int[] numar2, bool bigger)
         {
+            int[] v = v = new int[numar1.Length];
+            int nr1 = numar1.Length;
+            int nr2 = numar2.Length;
+            int pos = 0;
+            int imprumut = 0;
+            if (bigger == false)
+            {
+                
+                for (int i = 0; i < nr2; i++)
+                {
+                    numar1[i] -= imprumut;
+                    imprumut = 0;
+                    if(numar1[i] - numar2[i] >= 0)
+                    {
+                        v[i] = numar1[i] - numar2[i];
+                    }
+                    if (numar1[i] - numar2[i] < 0)
+                    {
+                        imprumut = 1;
+                        v[i] = (10 + numar1[i]) - numar2[i];
+                    }
+                    pos = i;
+                }
+                for (int i = nr2; i < nr1; i++)
+                {
+                    if (imprumut != 0)
+                    {
+                        if (numar1[i] != 0)
+                        {
+                            numar1[i] -= imprumut;
+                            imprumut = 0;
+                        }
+                        else
+                        {
+                            numar1[i] = 10 - imprumut;
+                            imprumut = 1;
+                        }
+                    }
+                    v[i] = numar1[i];
+                    pos = i;
+                }
+            }
+            if(bigger == true)
+            { 
 
+            }
+            writeNumber(v, pos);
         }
 
         private static void Adunare(int[] numar1, int[] numar2, bool bigger)
