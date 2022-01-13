@@ -8,7 +8,7 @@ namespace NumereMari
 {
     class Program
     {
-        
+
         static void Main(string[] args)
         {
             int[] numar1 = createNumber();
@@ -24,11 +24,11 @@ namespace NumereMari
             {
                 Console.Write(numar2[i]);
             }
-            bool bigger = Compar(numar1, numar2); // false = numar1>=numar2    true = numar2>numar1;
+            int bigger = Compar(numar1, numar2);
             Console.WriteLine();
             Console.WriteLine("Alegeti operatia: 1.adunare 2.scadere 3.modulo 4.impartire 5.inmultire");
             int op = int.Parse(Console.ReadLine());
-            switch(op)
+            switch (op)
             {
                 case 1:
                     Adunare(numar1, numar2, bigger);
@@ -52,14 +52,20 @@ namespace NumereMari
 
             }
         }
-        private static bool Compar(int[] numar1, int[] numar2)
+        /// <summary>
+        /// Compara cei doi vectori, returnand un numar intre 0-2
+        /// </summary>
+        /// <param name="numar1"></param> primul numar
+        /// <param name="numar2"></param> al doilea numar
+        /// <returns></returns> 0 egali 1 numarul 1 mai mare   2 numarul 2 mai mare
+        private static int Compar(int[] numar1, int[] numar2)
         {
             int nr1 = numar1.Length;
             int nr2 = numar2.Length;
             if (nr1 > nr2)
-                return false;
+                return 1;
             if (nr1 < nr2)
-                return true;
+                return 2;
             int x = 0;
             if (nr1 == nr2)
             {
@@ -68,51 +74,75 @@ namespace NumereMari
                     if (numar1[i] > numar2[i])
                     {
                         x++;
-                        return false;
+                        return 1;
                     }
                     if (numar1[i] < numar2[i])
                     {
                         x++;
-                        return true;
+                        return 2;
                     }
                 }
             }
-            return false;
+            return 0;
         }
 
-        private static void Inmultire(int[] numar1, int[] numar2, bool bigger)
+        /// <summary>
+        /// Functia inmulteste cei doi vectori
+        /// </summary>
+        /// <param name="numar1"></param>
+        /// <param name="numar2"></param>
+        /// <param name="bigger"></param>
+        private static void Inmultire(int[] numar1, int[] numar2, int bigger)
+        {
+
+        }
+        
+        /// <summary>
+        /// Functia imparte numarul mai mic la cel mai mare
+        /// </summary>
+        /// <param name="numar1"></param>
+        /// <param name="numar2"></param>
+        /// <param name="bigger"></param>
+        private static void Impartire(int[] numar1, int[] numar2, int bigger)
         {
 
         }
 
-        private static void Impartire(int[] numar1, int[] numar2, bool bigger)
+        /// <summary>
+        /// Functia imparte numarul la un numar ales, afisand restul impartirii
+        /// </summary>
+        /// <param name="numar1"></param>
+        /// <param name="numar2"></param>
+        /// <param name="bigger"></param>
+        private static void Modulo(int[] numar1, int[] numar2, int bigger)
         {
 
         }
 
-        private static void Modulo(int[] numar1, int[] numar2, bool bigger)
+        /// <summary>
+        /// Functia scade numarul 1 din numarul 2
+        /// </summary>
+        /// <param name="numar1"></param>
+        /// <param name="numar2"></param>
+        /// <param name="bigger"></param>
+        private static void Scadere(int[] numar1, int[] numar2, int bigger)
         {
-
-        }
-
-        private static void Scadere(int[] numar1, int[] numar2, bool bigger)
-        {
-            int[] v = v = new int[numar1.Length];
+            int[] v = v = new int[numar1.Length+numar2.Length];
             int nr1 = numar1.Length;
             int nr2 = numar2.Length;
             int pos = 0;
             int imprumut = 0;
-            if (bigger == false)
+            if (bigger == 1)
             {
-                
                 for (int i = 0; i < nr2; i++)
                 {
                     numar1[i] -= imprumut;
                     imprumut = 0;
-                    if(numar1[i] - numar2[i] >= 0)
+                    if (numar1[i] - numar2[i] >= 0)
                     {
                         v[i] = numar1[i] - numar2[i];
                     }
+
                     if (numar1[i] - numar2[i] < 0)
                     {
                         imprumut = 1;
@@ -138,23 +168,83 @@ namespace NumereMari
                     v[i] = numar1[i];
                     pos = i;
                 }
+                writeNEGNumber(v, pos);
             }
-            if(bigger == true)
-            { 
+            if (bigger == 2)
+            {
+                for (int i = 0; i < nr1; i++)
+                {
+                    numar2[i] -= imprumut;
+                    imprumut = 0;
+                    if (numar2[i] - numar1[i] >= 0)
+                    {
+                        v[i] = numar2[i] - numar1[i];
+                    }
 
+                    if (numar2[i] - numar1[i] < 0)
+                    {
+                        imprumut = 1;
+                        v[i] = (10 + numar2[i]) - numar1[i];
+                    }
+                    pos = i;
+                }
+                for (int i = nr1; i < nr2; i++)
+                {
+                    if (imprumut != 0)
+                    {
+                        if (numar2[i] != 0)
+                        {
+                            numar2[i] -= imprumut;
+                            imprumut = 0;
+                        }
+                        else
+                        {
+                            numar2[i] = 10 - imprumut;
+                            imprumut = 1;
+                        }
+                    }
+                    v[i] = numar2[i];
+                    pos = i;
+                }
+                writeNEGNumber(v, pos);
             }
-            writeNumber(v, pos);
+            if (bigger == 0)
+            {
+                Console.WriteLine("v = 0");
+            }
         }
 
-        private static void Adunare(int[] numar1, int[] numar2, bool bigger)
+        /// <summary>
+        /// Afisarea numarului final dupa scadere (numar negativ)
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="pos"></param>
+        private static void writeNEGNumber(int[] v, int pos)
         {
-            int[] v = new int[numar1.Length+ numar2.Length];
+            Console.Write("v = -");
+            for (int i = pos; i >= 0; i--)
+            {
+                Console.Write(v[i]);
+
+            }
+            Console.WriteLine();
+        }
+        
+        /// <summary>
+        /// Functia aduna cele doua numere
+        /// </summary>
+        /// <param name="numar1"></param>
+        /// <param name="numar2"></param>
+        /// <param name="bigger"></param>
+        private static void Adunare(int[] numar1, int[] numar2, int bigger)
+        {
+            int[] v = new int[numar1.Length + numar2.Length];
             int nr1 = numar1.Length;
             int nr2 = numar2.Length;
             int pos = 0;
             int rest = 0;
 
-            if(bigger == false)
+            if (bigger == 1)
             {
                 for (int j = 0; j < nr2; j++)
                 {
@@ -169,7 +259,7 @@ namespace NumereMari
                     rest = (v[i] + numar1[i]) / 10;
                     v[i] = (v[i] + numar1[i]) % 10;
                     pos = i;
-                    
+
                 }
                 if (rest != 0)
                 {
@@ -177,7 +267,7 @@ namespace NumereMari
                     v[nr1] += rest;
                 }
             }
-            if(bigger == true)
+            if (bigger == 2)
             {
                 for (int j = 0; j < nr1; j++)
                 {
@@ -202,18 +292,27 @@ namespace NumereMari
             }
             writeNumber(v, pos);
         }
-        
+
+        /// <summary>
+        /// Afisarea numarului final dupa operatie
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="pos"></param>
         private static void writeNumber(int[] v, int pos)
         {
             Console.Write("v = ");
             for (int i = pos; i >= 0; i--)
             {
-                    Console.Write(v[i]);
-                
+                Console.Write(v[i]);
+
             }
             Console.WriteLine();
         }
 
+        /// <summary>
+        /// Se creeaza vectorul (numarul) prin separarea char - urilor din stringul introdus de la tastatura
+        /// </summary>
+        /// <returns></returns>
         private static int[] createNumber()
         {
             Console.Write("introduceti numarul: ");
@@ -221,10 +320,10 @@ namespace NumereMari
             int n = line.Length;
             int[] v = new int[n];
             int j = -1;
-            for (int i = n-1; i >= 0; i--)
+            for (int i = n - 1; i >= 0; i--)
             {
                 j++;
-                v[i] = line[j] -48;
+                v[i] = line[j] - 48;
             }
             return v;
         }
