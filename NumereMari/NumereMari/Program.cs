@@ -9,6 +9,10 @@ namespace NumereMari
     class Program
     {
 
+        /// <summary>
+        /// Programul ruleaza doar pentru numere naturale!
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             int[] numar1 = createNumber();
@@ -26,7 +30,7 @@ namespace NumereMari
             }
             int bigger = Compar(numar1, numar2);
             Console.WriteLine();
-            Console.WriteLine("Alegeti operatia: 1.adunare 2.scadere 3.modulo 4.impartire 5.inmultire");
+            Console.Write("Alegeti operatia: 1.adunare 2.scadere 3.modulo 4.impartire 5.inmultire     ");
             int op = int.Parse(Console.ReadLine());
             switch (op)
             {
@@ -57,7 +61,7 @@ namespace NumereMari
         /// </summary>
         /// <param name="numar1"></param> primul numar
         /// <param name="numar2"></param> al doilea numar
-        /// <returns></returns> 0 egali 1 numarul 1 mai mare   2 numarul 2 mai mare
+        /// <returns></returns> 0 egale 1 numarul 1 mai mare   2 numarul 2 mai mare
         private static int Compar(int[] numar1, int[] numar2)
         {
             int nr1 = numar1.Length;
@@ -94,9 +98,89 @@ namespace NumereMari
         /// <param name="bigger"></param>
         private static void Inmultire(int[] numar1, int[] numar2, int bigger)
         {
+            int[] v = v = new int[numar1.Length * numar2.Length+1];
+            int nr1 = numar1.Length;
+            int nr2 = numar2.Length;
+            int pos = 0;
+            int rest = 0;
+            if (bigger == 1 || bigger == 0)
+            {
+                for (int i = 0; i < nr2; i++)
+                {
+                    for (int j = 0; j < nr1; j++)
+                    {
+                        v[j + i] += rest;
+                        rest = 0;
+                        if (numar1[j] * numar2[i] > 9)
+                        {
+                            rest  = (numar1[j] * numar2[i]) / 10;
+                            v[j + i] += (numar1[j] * numar2[i]) % 10;
+                            if(v[j + i] > 9)
+                            {
+                                rest += v[j + i] / 10;
+                                v[j + i] %= 10;
+                            }
+                        }
+                        else
+                        {
+                            v[j + i] += (numar1[j] * numar2[i]);
+                            if (v[j + i] > 9)
+                            {
+                                rest += v[j + i] / 10;
+                                v[j + i] %= 10;
+                            }
+                        }
+                        pos = j+i+1;
+                    }
+                    if(rest != 0)
+                    {
+                        v[pos] += rest;
+                        rest = 0;
+                    }
+                    
+                }
 
+            }
+            if (bigger == 2)
+            {
+                for (int i = 0; i < nr1; i++)
+                {
+                    for (int j = 0; j < nr2; j++)
+                    {
+                        v[j + i] += rest;
+                        rest = 0;
+                        if (numar2[j] * numar1[i] > 9)
+                        {
+                            rest = (numar2[j] * numar1[i]) / 10;
+                            v[j + i] += (numar2[j] * numar1[i]) % 10;
+                            if (v[j + i] > 9)
+                            {
+                                rest += v[j + i] / 10;
+                                v[j + i] %= 10;
+                            }
+                        }
+                        else
+                        {
+                            v[j + i] += (numar2[j] * numar1[i]);
+                            if (v[j + i] > 9)
+                            {
+                                rest += v[j + i] / 10;
+                                v[j + i] %= 10;
+                            }
+                        }
+                        pos = j + i + 1;
+                    }
+                    if (rest != 0)
+                    {
+                        v[pos] += rest;
+                        rest = 0;
+                    }
+
+                }
+            }
+            writeNumber(v, pos);
         }
-        
+
         /// <summary>
         /// Functia imparte numarul mai mic la cel mai mare
         /// </summary>
@@ -105,7 +189,22 @@ namespace NumereMari
         /// <param name="bigger"></param>
         private static void Impartire(int[] numar1, int[] numar2, int bigger)
         {
+            int[] v = v = new int[numar1.Length * numar2.Length];
+            int nr1 = numar1.Length;
+            int nr2 = numar2.Length;
+            int pos = 0;
+            if (bigger == 1)
+            {
 
+            }
+            if (bigger == 0)
+            {
+                Console.WriteLine("v = 1");
+            }
+            if (bigger == 2)
+            {
+                Console.WriteLine("v = 0");
+            }
         }
 
         /// <summary>
