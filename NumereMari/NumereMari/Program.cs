@@ -30,7 +30,7 @@ namespace NumereMari
             }
             int bigger = Compar(numar1, numar2);
             Console.WriteLine();
-            Console.Write("Alegeti operatia: 1.adunare 2.scadere 3.modulo 4.impartire 5.inmultire     ");
+            Console.Write("Alegeti operatia: 1.adunare 2.scadere 3.inmultire :     ");
             int op = int.Parse(Console.ReadLine());
             switch (op)
             {
@@ -41,15 +41,8 @@ namespace NumereMari
                     Scadere(numar1, numar2, bigger);
                     break;
                 case 3:
-                    Modulo(numar1, numar2, bigger);
-                    break;
-                case 4:
-                    Impartire(numar1, numar2, bigger);
-                    break;
-                case 5:
                     Inmultire(numar1, numar2, bigger);
                     break;
-
                 default:
                     Console.WriteLine("error");
                     break;
@@ -181,42 +174,6 @@ namespace NumereMari
             writeNumber(v, pos);
         }
 
-        /// <summary>
-        /// Functia imparte numarul mai mic la cel mai mare
-        /// </summary>
-        /// <param name="numar1"></param>
-        /// <param name="numar2"></param>
-        /// <param name="bigger"></param>
-        private static void Impartire(int[] numar1, int[] numar2, int bigger)
-        {
-            int[] v = v = new int[numar1.Length * numar2.Length];
-            int nr1 = numar1.Length;
-            int nr2 = numar2.Length;
-            int pos = 0;
-            if (bigger == 1)
-            {
-
-            }
-            if (bigger == 0)
-            {
-                Console.WriteLine("v = 1");
-            }
-            if (bigger == 2)
-            {
-                Console.WriteLine("v = 0");
-            }
-        }
-
-        /// <summary>
-        /// Functia imparte numarul la un numar ales, afisand restul impartirii
-        /// </summary>
-        /// <param name="numar1"></param>
-        /// <param name="numar2"></param>
-        /// <param name="bigger"></param>
-        private static void Modulo(int[] numar1, int[] numar2, int bigger)
-        {
-
-        }
 
         /// <summary>
         /// Functia scade numarul 1 din numarul 2
@@ -267,7 +224,7 @@ namespace NumereMari
                     v[i] = numar1[i];
                     pos = i;
                 }
-                writeNEGNumber(v, pos);
+                writeNumber(v, pos);
             }
             if (bigger == 2)
             {
